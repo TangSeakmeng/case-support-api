@@ -22,8 +22,9 @@ import orderStatusRouter from './orderStatusRouter.router';
 import orderRouter from './orderRouter.router';
 import orderDetailRouter from './orderDetailRouter.router';
 import tableOrderRouter from './tableOrderRouter.router';
-import purchase_orderRouter from './Purchase_orderRouter.router';
-import purchase_order_detailRouter from './purchase_order_detailRouter.router';
+import purchaseOrderRouter from './Purchase_orderRouter.router';
+import purchaseOrderDetailRouter from './purchase_order_detailRouter.router';
+import tableStatusRouter from './tableStatusRouter.router';
 
 const routes = Router();
 
@@ -33,7 +34,7 @@ routes.use('/api/category', categoryRouter);
 routes.use ('/api/employee', employeeRouter);
 routes.use ('/api/brand', brandRouter);
 routes.use ('/api/branch', branchRouter);
-routes.use ('/api/branch_product', branchProductRouter);
+routes.use ('/api/branchProduct', branchProductRouter);
 routes.use ('/api/branch_user', branchUserRouter);
 routes.use ('/api/invoice', invoiceRouter);
 routes.use ('/api/menu', menuRouter);
@@ -50,7 +51,8 @@ routes.use ('/api/orderStatus', orderStatusRouter);
 routes.use ('/api/order', orderRouter);
 routes.use ('/api/orderDetail', orderDetailRouter);
 routes.use ('/api/tableOrder', tableOrderRouter);
-routes.use ('/api/purchaseOrder', purchase_orderRouter);
-routes.use ('/api/purchaseOrder_detail', purchase_order_detailRouter);
+routes.use ('/api/tableStatus', tableStatusRouter);
+routes.use ('/api/purchaseOrder', purchaseOrderRouter);
+routes.use ('/api/purchaseOrderDetail', purchaseOrderDetailRouter);
 
 export default routes;

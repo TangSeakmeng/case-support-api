@@ -1,15 +1,15 @@
 import { Request, Response, Router } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 import { Purchase_order } from '../entity/Purchase_order.entity';
-import { Purchase_orderService } from '../services/purchase_orderService.service';
-const purchase_orderRouter = Router();
-const purchase_orderService = new Purchase_orderService();
+import { PurchaseOrderService } from '../services/purchase_orderService.service';
+const purchaseOrderRouter = Router();
+const purchaseOrderService = new PurchaseOrderService();
 
 // api/purchaseOrder -GET
 
-purchase_orderRouter.get('', async (req: Request, res: Response) => {
+purchaseOrderRouter.get('', async (req: Request, res: Response) => {
   try {
-    const purchase_orders = await purchase_orderService.getAllPurchase_orders();
+    const purchase_orders = await purchaseOrderService.getAllPurchase_orders();
     res.status(200).send(purchase_orders);
   } catch (error) {
     res.status(501).send(error);
@@ -17,7 +17,7 @@ purchase_orderRouter.get('', async (req: Request, res: Response) => {
 });
 
 // /api/purchaseOrder/create - POST
-purchase_orderRouter.post('/create', async (req: Request, res: Response) => {
+purchaseOrderRouter.post('/create', async (req: Request, res: Response) => {
   try {
 
     const purchase_order = {
@@ -40,4 +40,4 @@ purchase_orderRouter.post('/create', async (req: Request, res: Response) => {
   }
 });
 
-export default purchase_orderRouter;
+export default purchaseOrderRouter;

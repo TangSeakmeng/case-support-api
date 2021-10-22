@@ -19,7 +19,8 @@ branchUserRouter.get('', async (req: Request, res: Response) => {
 // get by user_id
 branchUserRouter.get('/:userId', async (req: Request, res: Response) => {
   try {
-    const branch_users = (await branchUserService.getAllBranchUsers()).find(({ user }) => user.id === req.params.userId);
+    const userId = req.params.userId;
+    const branch_users = await branchUserService.getBranchUserbyId(userId)
     res.status(200).send(branch_users);
   } catch (error) {
     res.status(501).send(error);

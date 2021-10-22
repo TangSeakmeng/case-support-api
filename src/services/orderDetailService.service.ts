@@ -7,4 +7,14 @@ export class OrderDetailService {
     return orderDetails;
   }
 
+  public getOrderDetails = async (orderId: string) => {
+    const orderDetails = await OrderDetail.find({ 
+      relations: ["order", "menu"],
+      where: [{
+        order: orderId,
+      }]
+    });
+    return orderDetails;
+  }
+
 }

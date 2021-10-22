@@ -5,7 +5,7 @@ import { Order } from "./Order.entity";
 @Entity({ name: "orderDetail" })
 export class OrderDetail extends BaseEntity {
   
-  @ManyToOne(type => Order, order => order.orderDetails, { primary: true })
+  @ManyToOne(type => Order, order => order.orderDetail, { primary: true })
   order: Order;
 
   @ManyToOne(type => Menu, menu => menu.orderDetails, { primary: true })
@@ -14,7 +14,7 @@ export class OrderDetail extends BaseEntity {
   @Column()
   qty: number;
 
-  @Column()
+  @Column({ type: 'decimal', precision: 5, scale: 2, default: 0, })
   price: number;
 
 }

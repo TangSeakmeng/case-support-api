@@ -16,11 +16,17 @@ export class Order extends BaseEntity {
   @Column()
   customerContact: string;
 
+  @Column({ nullable: true })
+  description: string;
+
   @Column( { type: 'decimal', precision: 5, scale: 2, default: 0, } )
   subtotal: number;
 
   @Column()
   address: string;
+
+  @Column()
+  order_number: string;
 
   @Column({ nullable: true })
   is_published: boolean;
@@ -35,7 +41,7 @@ export class Order extends BaseEntity {
   updated_Date: Date;
 
   @OneToMany(type => OrderDetail, orderDetail => orderDetail.order)
-  orderDetails: OrderDetail[];
+  orderDetail: OrderDetail[];
 
   @OneToMany(type => TableOrder, tableOrder => tableOrder.order)
   tableOrder: TableOrder[];

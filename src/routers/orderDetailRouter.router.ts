@@ -15,6 +15,18 @@ orderDetailRouter.get('', async (req: Request, res: Response) => {
       res.status(501).send(error);
     }
   });
+
+// api/orderDetail/:id
+
+orderDetailRouter.get('/:orderId', async (req: Request, res: Response) => {
+  try {
+    const orderId = req.params.orderId;
+    const orderDetails = await orderDetailService.getOrderDetails(orderId);
+    res.status(200).send(orderDetails);
+  } catch (error) {
+    res.status(501).send(error);
+  }
+});
   
   // /api/orderDetail/create - POST
   orderDetailRouter.post('/create', async (req: Request, res: Response) => {

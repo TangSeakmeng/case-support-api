@@ -14,7 +14,7 @@ const userService = new UserService();
 // get all users
 // localhost:3000/api/users
 // localhost:3000/api/users?hello=world
-userRouter.get('',auth, async (req: Request, res: Response) => {
+userRouter.get('', async (req: Request, res: Response) => {
   try {
     const users = await userService.getAllUsers();
     res.status(200).send(users);
@@ -24,16 +24,19 @@ userRouter.get('',auth, async (req: Request, res: Response) => {
 });
 
 
-// get one user
-// localhost:3000/api/users/getUser
-userRouter.get('/getUser',auth, async (req: Request, res: Response) => {
+//get userbyId
+
+userRouter.get('/:userId',auth, async (req: Request, res: Response) => {
   try {
-    const user = await User.createQueryBuilder('users').getOne();
-    res.status(200).send(user);
+    const userId = req.params.userId;
+    const users = (await userService.getUser(userId));
+    console.log(users)
+    res.status(200).send(users);
   } catch (error) {
     res.status(501).send(error);
   }
 });
+
 
 
 // create user
@@ -62,6 +65,41 @@ userRouter.post('/create',auth, async (req: Request, res: Response) => {
     return res.status(201).json(result);
   } catch (error) {
     return res.status(501).json(error);
+  }
+});
+
+///api/users/:userid
+userRouter.put('/:userId/update', async (req: Request, res: Response) => {
+  try {
+    const hashResult = await hashPassword(req.body.password);
+    const userId = req.params.userId;
+    // console.log(userId)
+    const username = req.body.username;
+    const email = req.body.email;
+    const password = hashResult.password;
+    const salt = hashResult.salt;
+
+    const user = await userService.getUser(userId);
+    // console.log(user)
+    if (!user) {
+      return res.status(404).json({error: 'user not found'})
+    }
+
+    if(req.body === undefined){
+      res.statusMessage = "please send a valid body to update record";
+      res.statusCode = 400;
+      res.end();
+      return
+    }
+    const update_user = await User
+    .query ("UPDATE users SET username = $1, email = $2, password = $3, salt = $4 WHERE \"id\"= $5",[username, email, password, salt, userId])
+    const result = await userService.getUser(userId)
+    // console.log(update_user, 'result')
+
+    return res.status(201).json(result);
+    
+  } catch (error) {
+    res.status(501).send(error);
   }
 });
 

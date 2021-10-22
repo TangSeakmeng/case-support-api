@@ -19,6 +19,7 @@ tableRouter.get('', async (req: Request, res: Response) => {
 // /api/table/create - POST
 tableRouter.post('/create', async (req: Request, res: Response) => {
   try {
+    
 
     const table = {
       id: uuidv4(),
@@ -30,7 +31,9 @@ tableRouter.post('/create', async (req: Request, res: Response) => {
       updated_Date: new Date(),
       createdBy: req.body.createdBy,
       updatedBy: req.body.updatedBy,
+      table_status_id: req.body.table_status_id
     };
+    console.log (table)
     const insertTable: Table = Table.create(table);
     const result = await insertTable.save();
     return res.status(201).json(result);

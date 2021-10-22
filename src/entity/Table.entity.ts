@@ -1,6 +1,7 @@
 import {Entity, Column, BaseEntity, PrimaryColumn, ManyToOne, JoinColumn, OneToMany} from "typeorm";
 import { TableOrder } from "./TableOrder.entity";
 import { User } from "./User.entity";
+import { TableStatus } from "./TableStatus.entity";
 
 @Entity({ name: "table" })
 export class Table extends BaseEntity {
@@ -37,6 +38,12 @@ export class Table extends BaseEntity {
     { name: 'updatedBy'},
   ])
   updatedBy: User;
+
+  @ManyToOne(type => TableStatus, tableStatus => tableStatus.table)
+  @JoinColumn([
+    { name: 'table_status_id'},
+  ])
+  table_status_id: TableStatus;
 
   @OneToMany(type => TableOrder, tableOrder => tableOrder.table)
   tableOrder: TableOrder[];

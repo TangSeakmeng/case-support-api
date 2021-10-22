@@ -8,6 +8,11 @@ export class UserService {
     return users;
   }
 
+  public getUser = async (userId: string) => {
+    const users = await User.findOne(userId, { relations: ['employee_id'] });
+    return users;
+  }
+
   public getUserById = async () => {
     const users = await User
     .createQueryBuilder()
