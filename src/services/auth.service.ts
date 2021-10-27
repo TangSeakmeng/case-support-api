@@ -3,16 +3,14 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
 export const findByCredentials = async (email: string, password: string) => {
-  const user = await User.createQueryBuilder('users').where('users.email = :email').setParameters({ email: email }).getOne();
+  const user = await User.createQueryBuilder('users')
+    .where('users.email = :email')
+    .setParameters({ email: email })
+    .getOne();
 
-  if (!user)
-    throw new Error('Unable to login');
-
+  if (!user) throw new Error('Unable to login');
   const isMatch = await comparePassword(password, user.password, user.salt);
-
-  if(!isMatch)
-      throw new Error('Unable to login')
-  
+  if (!isMatch) throw new Error('Unable to login')
   return user;
 }
 
@@ -22,7 +20,7 @@ export const generateAuthToken = async (user: any) => {
   }, process.env.JWT_SECRET_KEY, {
     expiresIn: '7d'
   });
-  
+
   return token
 }
 
