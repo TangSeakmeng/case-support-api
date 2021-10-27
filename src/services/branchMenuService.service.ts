@@ -1,6 +1,7 @@
 import { Branch_menu } from "../entity/Branch_menu.entity";
 
 export class BranchMenuService {
+  
   public getAllBranchMenus = async () => {
     const branch_menus = await Branch_menu.find({
       relations: ["branch", "menu", "menu.menu_category_id", "menu.product_id"],
@@ -13,6 +14,11 @@ export class BranchMenuService {
     pageNumber: any,
     pageSize: any
   ) => {
+    const count = await Branch_menu.count({
+      relations: ["branch", "menu", "menu.menu_category_id", "menu.product_id"],
+      where: [{ branch: branchId, }],
+    });
+
     const branch_menus = await Branch_menu.find({
       skip: (pageNumber - 1) * pageSize,
       take: pageSize,
@@ -23,7 +29,8 @@ export class BranchMenuService {
         },
       ],
     });
-    return branch_menus;
+    
+    return { count, branch_menus };
   };
 
   public getBranchMenubyId = async (branchId: string, menuId: string) => {
@@ -39,10 +46,7 @@ export class BranchMenuService {
     return branch_menus;
   };
 
-  public getBranchMenubyCategoryId = async (
-    branchId: string,
-    menuCategoryId: string
-  ) => {
+  public getBranchMenubyCategoryId = async (branchId: string, menuCategoryId: string) => {
     let branch_menus = await Branch_menu.find({
       relations: ["branch", "menu", "menu.menu_category_id", "menu.product_id"],
       where: {
@@ -51,9 +55,10 @@ export class BranchMenuService {
     });
 
     branch_menus = branch_menus.filter((item) => {
-      return item.menu.menu_category_id.id === menuCategoryId;
+      return item?.menu?.menu_category_id?.id === menuCategoryId;
     });
 
     return branch_menus;
   };
+  
 }

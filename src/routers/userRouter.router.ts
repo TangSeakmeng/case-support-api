@@ -10,7 +10,6 @@ const userService = new UserService();
 
 // console.log(req.query) -- get data from params
 
-
 // get all users
 // localhost:3000/api/users
 // localhost:3000/api/users?hello=world
@@ -23,21 +22,19 @@ userRouter.get('', async (req: Request, res: Response) => {
   }
 });
 
-
-//get userbyId
-
+// get userbyId
+// localhost:3000/api/users/1
 userRouter.get('/:userId',auth, async (req: Request, res: Response) => {
   try {
     const userId = req.params.userId;
-    const users = (await userService.getUser(userId));
-    console.log(users)
-    res.status(200).send(users);
+    const user = (await userService.getUser(userId));
+    if(user?.password) delete user.password;
+    if(user?.salt) delete user.salt;
+    res.status(200).send(user);
   } catch (error) {
     res.status(501).send(error);
   }
 });
-
-
 
 // create user
 // localhost:3000/api/users/create
@@ -80,7 +77,7 @@ userRouter.put('/:userId/update', async (req: Request, res: Response) => {
     const salt = hashResult.salt;
 
     const user = await userService.getUser(userId);
-    // console.log(user)
+
     if (!user) {
       return res.status(404).json({error: 'user not found'})
     }
@@ -93,9 +90,7 @@ userRouter.put('/:userId/update', async (req: Request, res: Response) => {
     }
     const update_user = await User
     .query ("UPDATE users SET username = $1, email = $2, password = $3, salt = $4 WHERE \"id\"= $5",[username, email, password, salt, userId])
-    const result = await userService.getUser(userId)
-    // console.log(update_user, 'result')
-
+    const result = await userService.getUser(userId);
     return res.status(201).json(result);
     
   } catch (error) {
@@ -109,9 +104,7 @@ userRouter.put('/:userId/update', async (req: Request, res: Response) => {
 userRouter.post('/login', async (req: Request, res: Response) => {
   try {
     const user: User = await findByCredentials(req.body.email, req.body.password);
-    console.log(user)
     const token = await generateAuthToken(user);
-    console.log(token)
 
     user.token = token;
     await User.save(user);

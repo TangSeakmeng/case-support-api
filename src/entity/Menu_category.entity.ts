@@ -45,5 +45,6 @@ export class Menu_category extends BaseEntity {
   updatedBy: User;
 
   @OneToMany(type => Menu, menu => menu.menu_category_id)
-  menu_category_id: Menu_category[];
+  menu: Menu[];
+
 }

@@ -26,16 +26,15 @@ export class BranchProductService {
     return branch_products;
   };
 
-  public getBranchProductbyCategoryId = async (
-    branchId: string,
-    categoryId: string
-  ) => {
+  public getBranchProductbyCategoryId = async (branchId: string, categoryId: string) => {
     let branch_products = await Branch_product.find({
       relations: ["branch", "product", "product.product_category_id"],
       where: {
         branch: branchId,
       },
     });
+
+    console.log(branch_products)
 
     branch_products = branch_products.filter((item) => {
       return item.product.product_category_id.id === categoryId;

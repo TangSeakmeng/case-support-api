@@ -50,11 +50,10 @@ export class Menu extends BaseEntity {
   ])
   product_id: Product;
 
-  @ManyToOne(type => Menu_category, menu_category => menu_category.menu_category_id)
+  @ManyToOne(type => Menu_category, menu_category => menu_category.menu)
   @JoinColumn([
     { name: 'menu_category_id' },
   ])
-  menu_category_id: Menu;
-
+  menu_category_id: Menu_category;
 
 }

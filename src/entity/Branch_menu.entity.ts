@@ -15,4 +15,7 @@ export class Branch_menu extends BaseEntity {
   @Column( { type: 'decimal', precision: 5, scale: 2, default: 0, } )
   sale_price: number;
 
+  @Column( { type: 'decimal', precision: 5, scale: 2, default: 0, } )
+  discount_price: number;
+
 }
